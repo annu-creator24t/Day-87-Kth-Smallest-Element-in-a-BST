@@ -1,21 +1,23 @@
-class Solution {
+public class Solution {
+    private int counter = 0;
+    private int ans = -1;
+
     public int kthSmallest(TreeNode root, int k) {
-        Stack<TreeNode> stack = new Stack<>();
-        
-        while (true) {
-            // Go to the leftmost node
-            while (root != null) {
-                stack.push(root);
-                root = root.left;
-            }
-            
-            root = stack.pop();
-            k--; // Visit this node
-            if (k == 0) {
-                return root.val; // kth smallest found
-            }
-            
-            root = root.right; // Go right
+        inorder(root, k);
+        return ans;
+    }
+
+    private void inorder(TreeNode node, int k) {
+        if (node == null || ans != -1) return;
+
+        inorder(node.left, k);
+
+        counter++;
+        if (counter == k) {
+            ans = node.val;
+            return;
         }
+
+        inorder(node.right, k);
     }
 }
